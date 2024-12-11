@@ -89,11 +89,11 @@ const FilterCharacters = ({ characters }: { characters: Character[] }) => {
               </span>
             </div>
             <div className="flex gap-1 text-[13px] text-gray-500">
-              <span>Last known location:</span>
+              <span>Son bilinen konum:</span>
               <span>{character.location.name}</span>
             </div>
             <div className="flex gap-1 text-[13px] text-gray-500 mt-2">
-              <span>First seen in:</span>
+              <span>İlk kez görüldüğü yer:</span>
               <span>{character.origin.name}</span>
             </div>
           </div>
