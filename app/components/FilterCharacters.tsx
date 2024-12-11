@@ -99,6 +99,9 @@ const FilterCharacters = ({ characters }: { characters: Character[] }) => {
           </div>
         ))}
       </div>
+      {filteredCharacters.length === 0 && (
+        <p className="text-center mt-4">Karakter bulunamadı</p>
+      )}
     </div>
   );
 };
