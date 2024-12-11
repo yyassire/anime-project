@@ -51,20 +51,20 @@ const FilterCharacters = ({ characters }: { characters: Character[] }) => {
           value={statusFilter}
           className="border p-2 rounded"
         >
-          <option value="">All Status</option>
-          <option value="Alive">Alive</option>
-          <option value="Dead">Dead</option>
-          <option value="unknown">Unknown</option>
+          <option value="">Tüm Durumlar</option>
+          <option value="Alive">Hayatta</option>
+          <option value="Dead">Ölü</option>
+          <option value="unknown">Bilinmiyor</option>
         </select>
         <select
           onChange={handleGenderChange}
           value={genderFilter}
           className="border p-2 rounded"
         >
-          <option value="">All Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="unknown">Unknown</option>
+          <option value="">Tüm Cinsiyetler</option>
+          <option value="Male">Erkek</option>
+          <option value="Female">Kadın</option>
+          <option value="unknown">Bilinmiyor</option>
         </select>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
@@ -74,7 +74,7 @@ const FilterCharacters = ({ characters }: { characters: Character[] }) => {
             className="border p-2 rounded shadow  overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 hover:shadow-2xl"
           >
             <img src={character.image} alt={character.name} />
-            {/* content */}
+
             <h2 className="font-semibold">{character.name}</h2>
             <div className="flex gap-2 text-[15px] text-gray-500 items-center">
               <div
