@@ -3,7 +3,7 @@ import CharactersFilter from "./components/FilterCharacters";
 import Image from "next/image";
 
 interface ProductSearchParams {
-  page?: string | number;
+  page?: string;
   status?: string;
   gender?: string;
 }
@@ -13,8 +13,9 @@ const CharactersPage = async ({
 }: {
   searchParams: ProductSearchParams;
 }) => {
-  const { page, status, gender } = await searchParams;
-  const currentPage = page || 1;
+  // Destructure searchParams without awaiting
+  const { page, status, gender } = searchParams;
+  const currentPage = page ? parseInt(page, 10) : 1; // Ensure `currentPage` is a number
 
   let url = `https://rickandmortyapi.com/api/character?page=${currentPage}`;
   if (status) {
@@ -23,7 +24,12 @@ const CharactersPage = async ({
   if (gender) {
     url += `&gender=${gender}`;
   }
+
+  // Fetch data from the API
   const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch data: ${res.statusText}`);
+  }
   const data = await res.json();
 
   return (
