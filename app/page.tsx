@@ -46,7 +46,7 @@ const CharactersPage = async ({
       <CharactersFilter
         characters={data.results}
         info={data.info}
-        currentPage={currentPage}
+        currentPage={currentPage.toString()}
       />
     </div>
   );
