@@ -1,6 +1,13 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+
+// Define the interfaces
+interface Info {
+  next: string | null;
+  prev: string | null;
+}
 
 type CustomObject = {
   name: string;
@@ -17,34 +24,53 @@ interface Character {
   origin: CustomObject;
 }
 
-const FilterCharacters = ({ characters }: { characters: Character[] }) => {
-  const [filteredCharacters, setFilteredCharacters] = useState(characters);
+const CharactersFilter = ({
+  characters,
+  info,
+  currentPage,
+}: {
+  characters: Character[];
+  info: Info;
+  currentPage: string;
+}) => {
+  const router = useRouter();
+
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [genderFilter, setGenderFilter] = useState<string>("");
-  const handleFilter = () => {
-    const filtered = characters.filter((character) => {
-      const matchesStatus = statusFilter
-        ? character.status === statusFilter
-        : true;
-      const matchesGender = genderFilter
-        ? character.gender === genderFilter
-        : true;
-      return matchesStatus && matchesGender;
-    });
-    setFilteredCharacters(filtered);
-  };
-  const handleStatusChange = (e: ChangeEvent<HTMLSelectElement>) => {
+
+  // Handle filter change for status
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStatusFilter(e.target.value);
+    const filterQuery = new URLSearchParams(window.location.search);
+    filterQuery.set("status", e.target.value);
+    filterQuery.set("page", "1");
+    router.push("/?" + filterQuery.toString());
   };
-  const handleGenderChange = (e: ChangeEvent<HTMLSelectElement>) => {
+
+  // Handle filter change for gender
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGenderFilter(e.target.value);
+    const filterQuery = new URLSearchParams(window.location.search);
+    filterQuery.set("gender", e.target.value);
+    filterQuery.set("page", "1");
+    router.push("/?" + filterQuery.toString());
   };
-  useEffect(() => {
-    handleFilter(); // Apply filter when status or gender changes
-  }, [statusFilter, genderFilter]);
+
+  // go to the next page on click
+  const handleNextPage = () => {
+    const filterQuery = new URLSearchParams(window.location.search);
+    filterQuery.set("page", String(Number(currentPage) + 1));
+    router.push("/?" + filterQuery.toString());
+  };
+  // go to the previous page on click
+  const handlePreviousPage = () => {
+    const filterQuery = new URLSearchParams(window.location.search);
+    filterQuery.set("page", String(Number(currentPage) - 1));
+    router.push("/?" + filterQuery.toString());
+  };
 
   return (
-    <div>
+    <div className="container px-2 md:px-10 ">
       <div className="flex space-x-4 mt-4 justify-center">
         <select
           onChange={handleStatusChange}
@@ -68,10 +94,10 @@ const FilterCharacters = ({ characters }: { characters: Character[] }) => {
         </select>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-        {filteredCharacters.map((character) => (
+        {characters.map((character) => (
           <div
             key={character.id}
-            className="border p-2 rounded shadow  overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 hover:shadow-2xl"
+            className="bg-white/55 border p-2 rounded shadow  overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 hover:shadow-2xl"
           >
             <img src={character.image} alt={character.name} />
 
@@ -99,11 +125,29 @@ const FilterCharacters = ({ characters }: { characters: Character[] }) => {
           </div>
         ))}
       </div>
-      {filteredCharacters.length === 0 && (
+      {characters.length === 0 && (
         <p className="text-center mt-4">Karakter bulunamadı</p>
       )}
+      <div className="flex justify-center mt-6 mb-10">
+        {info.prev && (
+          <button
+            onClick={handlePreviousPage}
+            className="border px-4 py-2 mx-2 hover:scale-105 transform transition-all duration-100 active:opacity-40"
+          >
+            Önceki
+          </button>
+        )}
+        {info.next && (
+          <button
+            onClick={handleNextPage}
+            className="border px-4 py-2 mx-2 hover:scale-105 transform transition-all duration-100 active:opacity-40"
+          >
+            Sonraki
+          </button>
+        )}
+      </div>
     </div>
   );
 };
 
-export default FilterCharacters;
+export default CharactersFilter;

@@ -1,21 +1,41 @@
 import React from "react";
-import FilterCharacters from "./components/FilterCharacters";
+import CharactersFilter from "./components/FilterCharacters";
 
-async function fetchCharacters() {
-  const res = await fetch("https://rickandmortyapi.com/api/character");
+const CharactersPage = async ({ searchParams }: { searchParams: any }) => {
+  const { page, status, gender } = await searchParams;
+  const currentPage = page || 1;
+
+  let url = `https://rickandmortyapi.com/api/character?page=${currentPage}`;
+  if (status) {
+    url += `&status=${status}`;
+  }
+  if (gender) {
+    url += `&gender=${gender}`;
+  }
+  const res = await fetch(url);
   const data = await res.json();
-  return data.results;
-}
-
-const CharactersPage = async () => {
-  const characters = await fetchCharacters();
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-center">
-        Rick ve Morty Karakterleri
-      </h1>
-      <FilterCharacters characters={characters} />
+    <div className="bg-gray-200 overflow-x-hidden">
+      {/* hero section */}
+      <div className="relative">
+        <img
+          src="/img/wp2166981-morty-wallpapers.png"
+          alt="Rick ve Morty"
+          className="w-full h-[70vh] object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+          <h1 className="text-center text-gray-300 font-bold text-xl text-[25px] md:text-[50px] ">
+            Rick ve Morty Karakterleri
+          </h1>
+        </div>
+      </div>
+
+      <CharactersFilter
+        characters={data.results}
+        info={data.info}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
