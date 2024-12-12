@@ -1,7 +1,18 @@
 import React from "react";
 import CharactersFilter from "./components/FilterCharacters";
 import Image from "next/image";
-const CharactersPage = async ({ searchParams }: { searchParams: any }) => {
+
+interface ProductSearchParams {
+  page?: string | number;
+  status?: string;
+  gender?: string;
+}
+
+const CharactersPage = async ({
+  searchParams,
+}: {
+  searchParams: ProductSearchParams;
+}) => {
   const { page, status, gender } = await searchParams;
   const currentPage = page || 1;
 
