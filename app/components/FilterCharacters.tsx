@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-
+import Image from "next/image";
 // Define the interfaces
 interface Info {
   next: string | null;
@@ -99,7 +99,12 @@ const CharactersFilter = ({
             key={character.id}
             className="bg-white/55 border p-2 rounded shadow  overflow-hidden transform transition-all duration-500 hover:scale-105 hover:z-10 hover:shadow-2xl"
           >
-            <img src={character.image} alt={character.name} />
+            <Image
+              src={character.image}
+              alt={character.name}
+              width={720}
+              height={300}
+            />
 
             <h2 className="font-semibold">{character.name}</h2>
             <div className="flex gap-2 text-[15px] text-gray-500 items-center">
