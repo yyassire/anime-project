@@ -14,7 +14,7 @@ const CharactersPage = async ({
   searchParams: ProductSearchParams;
 }) => {
   // Destructure searchParams without awaiting
-  const { page, status, gender } = searchParams;
+  const { page, status, gender } = await searchParams;
   const currentPage = page ? parseInt(page, 10) : 1;
 
   let url = `https://rickandmortyapi.com/api/character?page=${currentPage}`;
