@@ -17,7 +17,6 @@ const CharactersPage = async ({ searchParams }: { searchParams: any }) => {
 
   return (
     <div className="bg-gray-200 overflow-x-hidden">
-      {/* hero section */}
       <div className="relative">
         <img
           src="/img/wp2166981-morty-wallpapers.png"
